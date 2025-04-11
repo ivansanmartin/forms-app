@@ -20,11 +20,13 @@
 									id="fieldType"
 									name="type"
 									class="form-select"
+									v-model="fieldType"
 								>
-									<option value="">Select type</option>
+									<option disabled value="">Select type</option>
 									<option value="text">Text</option>
 									<option value="email">Email</option>
 									<option value="checkbox">Checkbox</option>
+									<option value="radio">Radio</option>
 									<option value="number">Number</option>
 									<option value="textarea">Text Area</option>
 									<option value="select">Dropdown</option>
@@ -41,6 +43,7 @@
 									type="text"
 									class="form-control"
 									placeholder="E.g.: Full Name"
+									v-model="fieldLabel"
 								/>
 							</div>
 
@@ -60,6 +63,8 @@
 								/>
 							</div>
 
+							<FieldTypeBuilder :fieldType="fieldTypeBuilder"></FieldTypeBuilder>
+							
 							<div class="mb-3 form-check">
 								<input
 									id="required"
@@ -71,8 +76,7 @@
 									Required field
 								</label>
 							</div>
-
-							<button class="btn btn-primary w-100">
+							<button class="btn btn-primary w-100" :disabled="!configurationIsCompleted">
 								Add Field
 							</button>
 						</div>
@@ -146,3 +150,42 @@
 		</div>
 	</div>
 </template>
+
+<script setup lang="ts">
+import { FieldType } from '../types/field-types';
+import Checkbox from '@/components/forms/field-types/Checkbox.vue';
+import Radio from '@/components/forms/field-types/Radio.vue';
+import Dropdown from '@/components/forms/field-types/Dropdown.vue';
+import FieldTypeBuilder from '@/components/forms/FieldTypeBuilder.vue';
+import { ref, computed, watch } from 'vue';
+
+const fieldType = ref<FieldType | "">("");
+const fieldLabel = ref<string>("");
+const fieldDescription = ref<string | null>("");
+const optionsField = ref<string[] | null>(null);
+const placeholderField = ref<string | null>(null);
+const isRequiredField = ref<boolean>(true);
+
+
+
+const configurationIsCompleted = computed(() => {
+	return !!fieldType.value && fieldLabel.value.trim() !== "";
+
+});
+
+// Field Type Builder
+
+const fieldTypeBuilder = computed<number | null>(() => {
+  switch (fieldType.value) {
+    case 'checkbox':
+      return 1
+    case 'radio':
+      return 2
+    case 'select':
+      return 3
+    default:
+      return null
+  }
+})
+
+</script>

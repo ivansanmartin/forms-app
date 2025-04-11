@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import HomeView from "@/components/views/HomeView.vue";
-import FormMetricsView from "@/components/views/FormMetricsView.vue";
-import MetricsView from "@/components/views/MetricsView.vue";
-import CreateFormView from "@/components/views/CreateFormView.vue";
+import HomeView from "@/views/HomeView.vue";
+import FormMetricsView from "@/views/FormMetricsView.vue";
+import MetricsView from "@/views/MetricsView.vue";
+import CreateFormView from "@/views/CreateFormView.vue";
 
 const routes = [
     { path: "/", component: HomeView },
